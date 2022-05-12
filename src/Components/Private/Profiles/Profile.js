@@ -10,16 +10,21 @@ import PostEvent from "./PostEvent";
 import PostImage from "./PostImage";
 import PostVideo from "./PostVideo";
 import { Birthdate, Education, Jobs, Question } from "./ProfileModules";
+import { GetAdmiresList } from "../../../Store/Reducers/CommonSlice";
 
 function Profile() {
   const dispatch = useDispatch();
   const { userProfile, profilePosts, profileVideos } = useSelector(
     ({ Profile }) => Profile
   );
+  const { admiresList } = useSelector(({ Loader }) => Loader);
 
   useEffect(() => {
     dispatch(GetImagePosts());
     dispatch(GetVideoPosts());
+    dispatch(GetAdmiresList()).then((response) => {
+      console.log(response);
+    });
     return () => {};
   }, []);
 
@@ -35,7 +40,7 @@ function Profile() {
                 <div className="left-profile-content">
                   <h2>{userProfile?.full_name}</h2>
                   <p>
-                    {userProfile?.current_jobs?.title} @{" "}
+                    {userProfile?.current_jobs?.title} @
                     {userProfile?.current_jobs?.company_name}
                   </p>
                   <p>
@@ -83,7 +88,7 @@ function Profile() {
                       <img src={userProfile?.image || BackGround.Upload} />
                       <h5 className="check">{userProfile?.full_name}</h5>
                       <p>
-                        {userProfile?.current_jobs?.title} @{" "}
+                        {userProfile?.current_jobs?.title} @
                         {userProfile?.current_jobs?.company_name}
                       </p>
                     </div>
@@ -95,53 +100,27 @@ function Profile() {
                   </div>
                   <div className="demi-admires">
                     <h5>
-                      {userProfile?.first_name} Admires{" "}
+                      {userProfile?.first_name} Admires
                       <a href="#" className="see_all_admires admire-show">
                         SEE ALL
                       </a>
                     </h5>
-                    <ul>
-                      <li>
-                        <img src="img/bc-connect-img1.png" />
-                        <h6>Ria</h6>
-                      </li>
-                      <li>
-                        <img src="img/bc-connect-img2.png" />
-                        <h6>Leone</h6>
-                      </li>
-                      <li>
-                        <img src="img/bc-connect-img3.png" />
-                        <h6>Timo</h6>
-                      </li>
-                      <li>
-                        <img src="img/bc-connect-img4.png" />
-                        <h6>Claire</h6>
-                      </li>
-                      <li>
-                        <img src="img/bc-connect-img1.png" />
-                        <h6>Demi</h6>
-                      </li>
-                      <li>
-                        <img src="img/bc-connect-img2.png" />
-                        <h6>Guine</h6>
-                      </li>
-                      <li>
-                        <img src="img/bc-connect-img3.png" />
-                        <h6>Ria</h6>
-                      </li>
-                      <li>
-                        <img src="img/bc-connect-img4.png" />
-                        <h6>Ria</h6>
-                      </li>
-                      <li>
-                        <img src="img/bc-connect-img1.png" />
-                        <h6>Ria</h6>
-                      </li>
-                      <li>
-                        <img src="img/bc-connect-img1.png" />
-                        <h6>Ria</h6>
-                      </li>
-                    </ul>
+                    <div className="container">
+                      {admiresList?.length ?
+                        admiresList?.map((data, id) => {
+                          return (
+                            <ul key={id}>
+                              <li className="zoom-effect-container">
+                                <div className="image-card">
+                                  <img src={data.image} />
+                                  <h6>{data.full_name}</h6>
+                                </div>
+                              </li>
+                            </ul>
+                          );
+                        }):<></> }
+                    </div>
+                    
                   </div>
                 </div>
               </div>
