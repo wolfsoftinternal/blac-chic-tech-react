@@ -1,22 +1,28 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "../Profiles/Anotherprofile";
-import UserIcon from "../Bcconnect/user-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { GetUsersList } from "../../../Store/Reducers/CommonSlice";
+import { BackGround, Icon, Logo } from "../../../Utilities/Icons";
+import { GetCreateAdmires } from "../../../Store/Reducers/ProfileReducer";
 
 const Bcconnect = () => {
+  const {id} = useParams();
   const dispatch = useDispatch();
   const { usersList } = useSelector(({ Loader }) => Loader);
+
+  // handleClick = ()=>{
+  //   console.log(admire_id);
+  // }
 
   useEffect(() => {
     dispatch(GetUsersList()).then((response) => {
       console.log(response);
     });
     return () => {};
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -142,8 +148,8 @@ const Bcconnect = () => {
               return (
                 <div className="col-lg-3" key={id}>
                   <div className="box">
-                    {/* <Link to="/Anotherprofile"> */}
-                    <Link to="/Profile">
+                    <Link to={`/Anotherprofile/${data.id}`}>
+                      {/* <Link to="/Profile"> */}
                       <img className="cover" src={data.image} />
                     </Link>
                     <div className="row">
@@ -160,7 +166,7 @@ const Bcconnect = () => {
                         <div className="circle">
                           <Link to="#">
                             <img
-                              src={UserIcon}
+                              src={Icon.UserIcon}
                               className="image-fit"
                               alt="img"
                             />
