@@ -11,6 +11,10 @@ export const IsUsernameExist = (data) =>
 
 //* USER PROFILE API REQUEST
 export const MyProfile = (data) => POST(`${BASE_URL}/user-profile`, data);
+export const UsersList = (data) => POST(`${BASE_URL}/user/list`, data);
+export const AdmiresList = (data) => POST(`${BASE_URL}/admire-list`, data);
+export const CreateAdmires = (data) => POST(`${BASE_URL}/admire-create`, data);
+export const OtherUserProfile = (data , id) => POST(`${BASE_URL}/other-user-profile`, data , id);
 export const EditProfile = (data) => POST(`${BASE_URL}/edit-profile`, data);
 
 //* IMAGE POST APIs
@@ -18,7 +22,7 @@ export const CreateImagePostAPI = (data) =>
   POST(`${BASE_URL}/post-create`, data);
 export const GetImagePostsAPI = (data) => POST(`${BASE_URL}/post-list`, data);
 export const UpdateImagePostAPI = (data) => POST(`${BASE_URL}/post-edit`, data);
-export const GetImageDetailAPI = (data) =>
+export const GetImageDetailAPI = (data) =>  
   POST(`${BASE_URL}/post-details`, data);
 export const DeleteImagePostAPI = (data) =>
   POST(`${BASE_URL}/post-delete`, data);
