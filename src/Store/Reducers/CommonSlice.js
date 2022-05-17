@@ -4,6 +4,8 @@ import {
   CountryList,
   StateList,
 } from "../../Components/Common/Service";
+import { UsersList } from "../../Components/Routes/Service";
+import { OtherUserProfile } from "../../Components/Routes/Service";
 import { AlertEnum } from "../../Utilities/Enums";
 const initialState = {
   isLoading: false,
@@ -15,6 +17,8 @@ const initialState = {
   countryList: [],
   stateList: [],
   cityList: [],
+  usersList: [],
+  otherUserProfile: [],
 };
 
 export const LoaderSlice = createSlice({
@@ -37,6 +41,12 @@ export const LoaderSlice = createSlice({
     });
     builder.addCase(GetCityList.fulfilled, (state, action) => {
       state.cityList = action.payload;
+    });
+    builder.addCase(GetUsersList.fulfilled, (state, action) => {
+      state.usersList = action.payload;
+    });
+    builder.addCase(GetOtherUserProfile.fulfilled, (state, action) => {
+      state.admiresList = action.payload;
     });
   },
 });
@@ -102,6 +112,47 @@ export const GetCityList = createAsyncThunk(
           value: item?.id,
         }));
         return cityArr;
+      } else {
+        throw result;
+      }
+    } catch (error) {
+      dispatch(
+        setMessage({
+          text: error?.message,
+          type: AlertEnum.Error,
+        })
+      );
+    }
+  }
+);
+export const GetUsersList = createAsyncThunk(
+  "GetUsersList",
+  async (values, { dispatch }) => {
+    try {
+      const result = await UsersList(values);
+      if (result?.success) {
+        return result?.data;
+      } else {
+        throw result;
+      }
+    } catch (error) {
+      dispatch(
+        setMessage({
+          text: error?.message,
+          type: AlertEnum.Error,
+        })
+      );
+    }
+  }
+);
+
+export const GetOtherUserProfile = createAsyncThunk(
+  "GetOtherUserProfile",
+  async (user_id, { dispatch }) => {
+    try {
+      const result = await OtherUserProfile( {user_id}  );
+      if (result?.success) {
+        return result?.data;
       } else {
         throw result;
       }

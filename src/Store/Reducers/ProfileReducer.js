@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+  AdmiresList,
+  CreateAdmires,
   CreateImagePostAPI,
   CreateVideoPostAPI,
   EditProfile,
@@ -167,6 +169,46 @@ export const GetImagePosts = createAsyncThunk(
     }
   }
 );
+export const GetAdmiresList = createAsyncThunk(
+  "GetAdmiresList",
+  async (values, { dispatch }) => {
+    try {
+      const result = await AdmiresList(values);
+      if (result?.success) {
+        return result?.data;
+      } else {
+        throw result;
+      }
+    } catch (error) {
+      dispatch(
+        setMessage({
+          text: error?.message,
+          type: AlertEnum.Error,
+        })
+      );
+    }
+  }
+);
+export const CreateAdmires = createAsyncThunk(
+  "CreateAdmires",
+  async (values, { dispatch }) => {
+    try {
+      const result = await CreateAdmires(values);
+      if (result?.success) {
+        return result?.data;
+      } else {
+        throw result;
+      }
+    } catch (error) {
+      dispatch(
+        setMessage({
+          text: error?.message,
+          type: AlertEnum.Error,
+        })
+      );
+    }
+  }
+);
 
 export const ProfileSlice = createSlice({
   name: "Profile",
@@ -181,6 +223,9 @@ export const ProfileSlice = createSlice({
     });
     builder.addCase(GetVideoPosts.fulfilled, (state, action) => {
       state.profileVideos = action.payload;
+    });
+    builder.addCase(GetAdmiresList.fulfilled, (state, action) => {
+      state.admiresList = action.payload;
     });
   },
 });
