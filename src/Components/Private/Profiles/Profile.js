@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
+  GetAdmiresList,
   GetImagePosts,
   GetVideoPosts,
 } from "../../../Store/Reducers/ProfileReducer";
@@ -10,18 +11,18 @@ import PostEvent from "./PostEvent";
 import PostImage from "./PostImage";
 import PostVideo from "./PostVideo";
 import { Birthdate, Education, Jobs, Question } from "./ProfileModules";
-import { GetAdmiresList } from "../../../Store/Reducers/CommonSlice";
 
 function Profile() {
   const dispatch = useDispatch();
-  const { userProfile, profilePosts, profileVideos } = useSelector(
+  const { userProfile, profilePosts, profileVideos, admiresList } = useSelector(
     ({ Profile }) => Profile
   );
-  const { admiresList } = useSelector(({ Loader }) => Loader);
+  
 
   useEffect(() => {
     dispatch(GetImagePosts());
     dispatch(GetVideoPosts());
+    dispatch(GetAdmiresList());
     dispatch(GetAdmiresList()).then((response) => {
       console.log(response);
     });
